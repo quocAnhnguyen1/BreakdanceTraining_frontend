@@ -3,8 +3,13 @@ import { ref, onMounted } from 'vue'
 
 const stats = ref([])
 
-onMounted(() => {
-
+onMounted(async () => {
+  const res = await fetch("http://localhost:8080/sessions")
+  const data = await res.json()
+  stats.value = data.map(s => ({
+    date: "today",
+    count: s.round
+  }))
 })
 </script>
 

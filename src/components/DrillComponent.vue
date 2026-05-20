@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from 'vue'
-const time = ref(0)
+const time = ref(40)
 const phase = ref("Ready")
 const round = ref(1)
 
@@ -24,6 +24,7 @@ function startWork() {
      phase.value = "Finish"
       isRunning = false
     }
+    saveSession()
   })
 }
 
@@ -78,6 +79,20 @@ function reset() {
   time.value = 40
   phase.value = "Ready"
   round.value = 1
+}
+
+async function saveSession() {
+  await fetch("http://localhost:8080/sessions", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      workTime: 40,
+      restTime: 20,
+      round: 3
+    })
+  })
 }
 </script>
 
